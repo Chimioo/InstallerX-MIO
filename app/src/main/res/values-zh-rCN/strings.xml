@@ -25,7 +25,7 @@
     <string name="discuss">讨论 &amp; 反馈 &amp; 更新</string>
     <string name="qq_channel">QQ频道</string>
     <string name="qq_group_official">QQ群组（官方）</string>
-    <string name="telegram_group">Telegram群组</string>
+    <string name="telegram_group">Telegram 群组</string>
 
     <string name="basic">常规</string>
     <string name="lock_default_installer">锁定为默认安装器</string>
@@ -170,4 +170,7 @@
     <string name="exception_dhizuku_not_work">请激活Dhizuku，并授予权限</string>
     <string name="exception_root_not_work">请授予ROOT权限</string>
     <string name="exception_app_process_not_work">授权器启动失败</string>
+    <string name="a_word">你知道，有些鸟儿是注定不会被关在牢笼里的，它们的每一片羽毛都闪耀着自由的光辉。</string>
+    <string name="a_word_from">——「肖申克的救赎」</string>
+    <string name="view_source_on_github">在 GitHub 查看源码</string>
 </resources>

@@ -173,4 +173,7 @@
     <string name="exception_dhizuku_not_work">Please activate Dhizuku and grant permission</string>
     <string name="exception_root_not_work">Couldn\'t access root</string>
     <string name="exception_app_process_not_work">Couldn\'t connect the authorizer</string>
+    <string name="a_word">You know some birds are not meant to becaged, their feathers are just too bright.</string>
+    <string name="a_word_from">——「The Shawshank Redemption」</string>
+    <string name="view_source_on_github">View Source on GitHub</string>
 </resources>

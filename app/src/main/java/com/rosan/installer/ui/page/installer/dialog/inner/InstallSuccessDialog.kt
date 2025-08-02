@@ -38,6 +38,7 @@ fun installSuccessDialog(installer: InstallerRepo, viewModel: DialogViewModel): 
             .copy(
                     buttons =
                             DialogButtons(DialogParamsType.InstallerInstallSuccess.id) {
+                                installer.config
                                 val list = mutableListOf<DialogButton>()
                                 val intent =
                                         context.packageManager.getLaunchIntentForPackage(
@@ -58,7 +59,7 @@ fun installSuccessDialog(installer: InstallerRepo, viewModel: DialogViewModel): 
                                                                 getAuthorizerLauncher(
                                                                                 config.authorizer
                                                                         )
-                                                                        .launchApp(packageName)
+                                                                        .launchApp(packageName,installer.config)
                                                                 Log.d(TAG, "Authorizer launched")
                                                             } else {
                                                                 context.startActivity(
