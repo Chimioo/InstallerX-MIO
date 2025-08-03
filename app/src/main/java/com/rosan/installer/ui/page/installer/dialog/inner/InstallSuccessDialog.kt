@@ -10,6 +10,8 @@ import androidx.compose.ui.res.stringResource
 import com.rosan.installer.R
 import com.rosan.installer.data.common.util.addAll
 import com.rosan.installer.data.installer.repo.InstallerRepo
+import com.rosan.installer.data.recycle.util.useUserService
+import com.rosan.installer.data.settings.model.room.entity.ConfigEntity
 import com.rosan.installer.data.settings.model.room.entity.launcher.getAuthorizerLauncher
 import com.rosan.installer.data.settings.util.ConfigUtil
 import com.rosan.installer.ui.page.installer.dialog.DialogParams
@@ -47,19 +49,16 @@ fun installSuccessDialog(installer: InstallerRepo, viewModel: DialogViewModel): 
                                 if (intent != null)
                                         list.add(
                                                 DialogButton(stringResource(R.string.open)) {
-                                                    CoroutineScope(Dispatchers.Main).launch {
+                                                     CoroutineScope(Dispatchers.IO).launch {
                                                         try {
-                                                            val config =
-                                                                    withContext(Dispatchers.IO) {
-                                                                        ConfigUtil.getByPackageName(
-                                                                                packageName
-                                                                        )
-                                                                    }
-                                                            if (config.useAuthorizerLauncher) {
-                                                                getAuthorizerLauncher(
-                                                                                config.authorizer
-                                                                        )
-                                                                        .launchApp(packageName,installer.config)
+                                                            if (installer.config.authorizer== ConfigEntity.Authorizer.Root||
+                                                                    installer.config.authorizer== ConfigEntity.Authorizer.Shizuku) {
+                                                                val activity = intent.component?.flattenToString()
+                                                                Log.d(TAG, "Launching authorizer: $activity")
+                                                                val cmd="am start -n $activity"
+                                                                useUserService(installer.config) { userService ->
+                                                                    userService.privileged.execArr(arrayOf("/system/bin/sh","-c",cmd))
+                                                                }
                                                                 Log.d(TAG, "Authorizer launched")
                                                             } else {
                                                                 context.startActivity(
