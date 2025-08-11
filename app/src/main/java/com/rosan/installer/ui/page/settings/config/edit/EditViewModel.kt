@@ -18,7 +18,7 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
 class EditViewModel(private val repo: ConfigRepo, private val id: Long? = null) :
-        ViewModel(), KoinComponent {
+    ViewModel(), KoinComponent {
     private val context by inject<Context>()
 
     var state by mutableStateOf(EditViewState())
@@ -30,43 +30,54 @@ class EditViewModel(private val repo: ConfigRepo, private val id: Long? = null) 
     fun dispatch(action: EditViewAction) {
         viewModelScope.launch {
             val errorMessage =
-                    kotlin
-                            .runCatching {
-                                when (action) {
-                                    is EditViewAction.Init -> init()
-                                    is EditViewAction.ChangeDataName -> changeDataName(action.name)
-                                    is EditViewAction.ChangeDataDescription ->
-                                            changeDataDescription(action.description)
-                                    is EditViewAction.ChangeDataAuthorizer ->
-                                            changeDataAuthorizer(action.authorizer)
-                                    is EditViewAction.ChangeDataCustomizeAuthorizer ->
-                                            changeDataCustomizeAuthorizer(
-                                                    action.customizeAuthorizer
-                                            )
-                                    is EditViewAction.ChangeDataInstallMode ->
-                                            changeDataInstallMode(action.installMode)
-                                    is EditViewAction.ChangeDataDeclareInstaller ->
-                                            changeDataDeclareInstaller(action.declareInstaller)
-                                    is EditViewAction.ChangeDataInstaller ->
-                                            changeDataInstaller(action.installer)
-                                    is EditViewAction.ChangeDataForAllUser ->
-                                            changeDataForAllUser(action.forAllUser)
-                                    is EditViewAction.ChangeDataAllowTestOnly ->
-                                            changeDataAllowTestOnly(action.allowTestOnly)
-                                    is EditViewAction.ChangeDataAllowDowngrade ->
-                                            changeDataAllowDowngrade(action.allowDowngrade)
-                                    is EditViewAction.ChangeDataAutoDelete ->
-                                            changeDataAutoDelete(action.autoDelete)
-                                    is EditViewAction.ChangeDataUseAuthorizerLauncher ->
-                                            changeDataUseAuthorizerLauncher(
-                                                    action.useAuthorizerLauncher
-                                            )
-                                    is EditViewAction.LoadData -> loadData()
-                                    is EditViewAction.SaveData -> saveData()
-                                }
-                            }
-                            .exceptionOrNull()
-                            ?.message
+                kotlin
+                    .runCatching {
+                        when (action) {
+                            is EditViewAction.Init -> init()
+                            is EditViewAction.ChangeDataName -> changeDataName(action.name)
+                            is EditViewAction.ChangeDataDescription ->
+                                changeDataDescription(action.description)
+
+                            is EditViewAction.ChangeDataAuthorizer ->
+                                changeDataAuthorizer(action.authorizer)
+
+                            is EditViewAction.ChangeDataCustomizeAuthorizer ->
+                                changeDataCustomizeAuthorizer(
+                                    action.customizeAuthorizer
+                                )
+
+                            is EditViewAction.ChangeDataInstallMode ->
+                                changeDataInstallMode(action.installMode)
+
+                            is EditViewAction.ChangeDataDeclareInstaller ->
+                                changeDataDeclareInstaller(action.declareInstaller)
+
+                            is EditViewAction.ChangeDataInstaller ->
+                                changeDataInstaller(action.installer)
+
+                            is EditViewAction.ChangeDataForAllUser ->
+                                changeDataForAllUser(action.forAllUser)
+
+                            is EditViewAction.ChangeDataAllowTestOnly ->
+                                changeDataAllowTestOnly(action.allowTestOnly)
+
+                            is EditViewAction.ChangeDataAllowDowngrade ->
+                                changeDataAllowDowngrade(action.allowDowngrade)
+
+                            is EditViewAction.ChangeDataAutoDelete ->
+                                changeDataAutoDelete(action.autoDelete)
+
+                            is EditViewAction.ChangeDataUseAuthorizerLauncher ->
+                                changeDataUseAuthorizerLauncher(
+                                    action.useAuthorizerLauncher
+                                )
+
+                            is EditViewAction.LoadData -> loadData()
+                            is EditViewAction.SaveData -> saveData()
+                        }
+                    }
+                    .exceptionOrNull()
+                    ?.message
             if (errorMessage != null) {
                 _eventFlow.emit(EditViewEvent.SnackBar(message = errorMessage))
             }
@@ -140,16 +151,16 @@ class EditViewModel(private val repo: ConfigRepo, private val id: Long? = null) 
     private fun loadData() {
         loadDataJob?.cancel()
         loadDataJob =
-                viewModelScope.launch(Dispatchers.IO) {
-                    state =
-                            state.copy(
-                                    data =
-                                            EditViewState.Data.build(
-                                                    id?.let { repo.find(id) }
-                                                            ?: ConfigEntity.default
-                                            )
+            viewModelScope.launch(Dispatchers.IO) {
+                state =
+                    state.copy(
+                        data =
+                            EditViewState.Data.build(
+                                id?.let { repo.find(id) }
+                                    ?: ConfigEntity.default
                             )
-                }
+                    )
+            }
     }
 
     private var saveDataJob: Job? = null
@@ -157,27 +168,30 @@ class EditViewModel(private val repo: ConfigRepo, private val id: Long? = null) 
     private fun saveData() {
         saveDataJob?.cancel()
         saveDataJob =
-                viewModelScope.launch(Dispatchers.IO) {
-                    val message =
-                            when {
-                                state.data.errorName ->
-                                        context.getString(R.string.config_error_name)
-                                state.data.errorCustomizeAuthorizer ->
-                                        context.getString(
-                                                R.string.config_error_customize_authorizer
-                                        )
-                                state.data.errorInstaller ->
-                                        context.getString(R.string.config_error_installer)
-                                else -> null
-                            }
-                    if (message != null) {
-                        _eventFlow.emit(EditViewEvent.SnackBar(message = message))
-                    } else {
-                        val entity = state.data.toConfigEntity()
-                        if (id == null) repo.insert(entity)
-                        else repo.update(entity.also { it.id = id })
-                        _eventFlow.emit(EditViewEvent.Saved)
+            viewModelScope.launch(Dispatchers.IO) {
+                val message =
+                    when {
+                        state.data.errorName ->
+                            context.getString(R.string.config_error_name)
+
+                        state.data.errorCustomizeAuthorizer ->
+                            context.getString(
+                                R.string.config_error_customize_authorizer
+                            )
+
+                        state.data.errorInstaller ->
+                            context.getString(R.string.config_error_installer)
+
+                        else -> null
                     }
+                if (message != null) {
+                    _eventFlow.emit(EditViewEvent.SnackBar(message = message))
+                } else {
+                    val entity = state.data.toConfigEntity()
+                    if (id == null) repo.insert(entity)
+                    else repo.update(entity.also { it.id = id })
+                    _eventFlow.emit(EditViewEvent.Saved)
                 }
+            }
     }
 }

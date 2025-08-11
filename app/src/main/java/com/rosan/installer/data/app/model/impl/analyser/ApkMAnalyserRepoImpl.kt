@@ -7,10 +7,15 @@ import com.rosan.installer.data.app.model.entity.DataEntity
 import com.rosan.installer.data.app.repo.AnalyserRepo
 import com.rosan.installer.data.settings.model.room.entity.ConfigEntity
 import kotlinx.serialization.ExperimentalSerializationApi
-import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonNames
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.decodeFromStream
+import kotlinx.serialization.json.intOrNull
+import kotlinx.serialization.json.longOrNull
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 import java.io.File
@@ -106,7 +111,7 @@ object ApkMAnalyserRepoImpl : AnalyserRepo, KoinComponent {
         }
         if (names.isEmpty()) return apps
         if (manifestOrNull == null) return apps
-        val manifest = manifestOrNull!!
+        val manifest = manifestOrNull
         names.forEach {
             apps.addAll(
                 doSingleWork(
@@ -128,6 +133,7 @@ object ApkMAnalyserRepoImpl : AnalyserRepo, KoinComponent {
         name: String,
         data: DataEntity
     ): List<AppEntity> {
+        if (manifest.packageName.isBlank()) return listOf()
         var dmName: String? = null
         var splitName: String? = null
         when (File(name).extension) {
@@ -161,20 +167,26 @@ object ApkMAnalyserRepoImpl : AnalyserRepo, KoinComponent {
 
     @Serializable
     private data class Manifest(
-        @SerialName("pname")
-        val packageName: String,
-        @SerialName("versioncode")
-        private val versionCodeStr: String,
-        @SerialName("release_version")
-        val releaseVersion: String?,
-        @SerialName("app_name")
-        val appName: String?,
-        @SerialName("apk_title")
-        val apkTitle: String?,
-        @SerialName("release_title")
-        val releaseTitle: String?
+        @JsonNames("pname", "package_name")
+        val packageName: String = "",
+        @JsonNames("versioncode", "version_code", "versionCode")
+        private val versionCodeRaw: JsonElement? = null,
+        @JsonNames("release_version", "version_name")
+        val releaseVersion: String? = null,
+        @JsonNames("app_name", "display_name")
+        val appName: String? = null,
+        @JsonNames("apk_title")
+        val apkTitle: String? = null,
+        @JsonNames("release_title")
+        val releaseTitle: String? = null
     ) {
-        val versionCode: Long = versionCodeStr.toLong()
+        val versionCode: Long = when (val raw = versionCodeRaw) {
+            is JsonPrimitive -> raw.longOrNull
+                ?: raw.intOrNull?.toLong()
+                ?: raw.contentOrNull?.toLongOrNull()
+                ?: 0L
+            else -> 0L
+        }
         val versionName: String = releaseVersion ?: ""
         val label: String? = appName ?: apkTitle ?: releaseTitle
     }

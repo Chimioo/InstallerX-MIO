@@ -11,7 +11,7 @@ plugins {
 
 //@Suppress("UnstableApiUsage")
 android {
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         // 你如果根据InstallerX的源码进行打包成apk或其他安装包格式
@@ -20,10 +20,10 @@ android {
         // Please change the applicationId to one that does not conflict with any official release.
         applicationId = "com.qling.installer.x"
         namespace = "com.rosan.installer"
-        minSdk = 34
-        targetSdk = 35
-        versionCode = 32
-        versionName = "1.8-mio"
+        minSdk = 29
+        targetSdk = 36
+        versionCode = 39
+        versionName = "2.0-mio"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -61,7 +61,7 @@ android {
     flavorDimensions += "level"
 
     productFlavors {
-        create("unstable") {
+        create("canary") {
             dimension = "level"
             isDefault = true
         }
@@ -77,7 +77,7 @@ android {
 
     applicationVariants.all {
         val level = when (flavorName) {
-            "unstable" -> 0
+            "canary" -> 0
             "preview" -> 1
             "stable" -> 2
             else -> 0
@@ -179,10 +179,5 @@ dependencies {
 
     implementation(libs.okhttp)
 
-    // The core module that provides APIs to a shell
-    implementation (libs.core)
-    // Optional: APIs for creating root services. Depends on ":core"
-    implementation (libs.service)
-    // Optional: Provides remote file system support
-    implementation (libs.nio)
+    implementation(libs.timber)
 }

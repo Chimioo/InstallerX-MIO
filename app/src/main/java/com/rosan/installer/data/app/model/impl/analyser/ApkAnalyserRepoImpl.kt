@@ -1,5 +1,6 @@
 package com.rosan.installer.data.app.model.impl.analyser
 
+import android.content.Context
 import android.content.res.ApkAssets
 import android.content.res.AssetManager
 import android.content.res.Resources
@@ -48,11 +49,9 @@ object ApkAnalyserRepoImpl : AnalyserRepo, KoinComponent {
     }
 
     private fun createResources(): Resources {
-        val resources = Resources.getSystem()
-        val constructor = reflect.getDeclaredConstructor(AssetManager::class.java)
-            ?: return resources
-        val assetManager = constructor.newInstance() as AssetManager
-        return Resources(assetManager, resources.displayMetrics, resources.configuration)
+        val context = get<Context>()
+        val overrideConfig = context.resources.configuration
+        return context.createConfigurationContext(overrideConfig).resources
     }
 
     private fun doFileWork(config: ConfigEntity, data: DataEntity.FileEntity): List<AppEntity> {
@@ -66,7 +65,6 @@ object ApkAnalyserRepoImpl : AnalyserRepo, KoinComponent {
     private fun doFileDescriptorWork(
         config: ConfigEntity, data: DataEntity.FileDescriptorEntity
     ): List<AppEntity> {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) throw Exception("FileDescriptor Analyser only work on Android P or greater")
         val fileDescriptor =
             data.getFileDescriptor() ?: throw Exception("can't get fd from '$data'")
         return useResources { resources ->
@@ -84,7 +82,6 @@ object ApkAnalyserRepoImpl : AnalyserRepo, KoinComponent {
         if (cookie == 0) throw Exception("the cookie of the added asset, or 0 on failure.")
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.P)
     private fun setAssetPath(assetManager: AssetManager, assets: Array<ApkAssets>) {
         val setApkAssetsMtd = reflect.getDeclaredMethod(
             AssetManager::class.java,
@@ -96,7 +93,6 @@ object ApkAnalyserRepoImpl : AnalyserRepo, KoinComponent {
         setApkAssetsMtd.invoke(assetManager, assets, true)
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.P)
     private fun loadFromFd(fileDescriptor: FileDescriptor): ApkAssets {
         val friendlyName = "${fileDescriptor.hashCode()}.apk"
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) ApkAssets.loadFromFd(
@@ -150,16 +146,16 @@ object ApkAnalyserRepoImpl : AnalyserRepo, KoinComponent {
         }.map { }
         if (packageName.isNullOrEmpty()) throw Exception("can't get the package from this package")
         return if (splitName.isNullOrEmpty()) AppEntity.BaseEntity(
-            packageName = packageName!!,
+            packageName = packageName,
             data = data,
             versionCode = versionCode,
             versionName = versionName,
             label = label,
             icon = roundIcon ?: icon
         ) else AppEntity.SplitEntity(
-            packageName = packageName!!,
+            packageName = packageName,
             data = data,
-            splitName = splitName!!
+            splitName = splitName
         )
     }
 }

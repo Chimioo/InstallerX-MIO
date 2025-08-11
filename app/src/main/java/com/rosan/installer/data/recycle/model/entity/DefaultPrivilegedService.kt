@@ -17,6 +17,7 @@ import com.rosan.installer.data.reflect.repo.ReflectRepo
 import org.koin.core.component.inject
 import java.io.IOException
 import android.os.Process as AndroidProcess
+import androidx.core.net.toUri
 
 
 class DefaultPrivilegedService : BasePrivilegedService() {
@@ -32,7 +33,7 @@ class DefaultPrivilegedService : BasePrivilegedService() {
         val intent = Intent(Intent.ACTION_VIEW)
             .addCategory(Intent.CATEGORY_DEFAULT)
             .setDataAndType(
-                Uri.parse("content://storage/emulated/0/test.apk"),
+                "content://storage/emulated/0/test.apk".toUri(),
                 "application/vnd.android.package-archive"
             )
         val list = queryIntentActivities(

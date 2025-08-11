@@ -37,21 +37,17 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.twotone.ArrowBack
 import androidx.compose.material.icons.automirrored.twotone.Sort
-import androidx.compose.material.icons.twotone.ArrowBack
 import androidx.compose.material.icons.twotone.ArrowUpward
 import androidx.compose.material.icons.twotone.Close
 import androidx.compose.material.icons.twotone.LibraryAddCheck
 import androidx.compose.material.icons.twotone.Menu
 import androidx.compose.material.icons.twotone.Search
 import androidx.compose.material.icons.twotone.Shield
-import androidx.compose.material.icons.twotone.Sort
 import androidx.compose.material.icons.twotone.Visibility
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
-import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.AlertDialogDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -72,7 +68,6 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -137,15 +132,16 @@ fun ApplyPage(
 
     val lazyListState = rememberLazyListState()
 
-    Scaffold(modifier = Modifier
-        .fillMaxSize()
-        .windowInsetsPadding(WindowInsets.safeDrawing)
-        .nestedScroll(
-            ShowFloatingActionButtonNestedScrollConnection(
-                showFloatingState,
-                lazyListState
-            )
-        ),
+    Scaffold(
+        modifier = Modifier
+            .fillMaxSize()
+            .windowInsetsPadding(WindowInsets.safeDrawing)
+            .nestedScroll(
+                ShowFloatingActionButtonNestedScrollConnection(
+                    showFloatingState,
+                    lazyListState
+                )
+            ),
         contentWindowInsets = WindowInsets.none,
         topBar = {
             var searchBarActivated by remember {
@@ -230,7 +226,8 @@ fun ApplyPage(
 
                 else -> {
                     val refreshing = viewModel.state.apps.progress is ViewContent.Progress.Loading
-                    val pullRefreshState = rememberPullRefreshState(refreshing = refreshing,
+                    val pullRefreshState = rememberPullRefreshState(
+                        refreshing = refreshing,
                         onRefresh = { viewModel.dispatch(ApplyViewAction.LoadApps) })
                     Box(modifier = Modifier.pullRefresh(pullRefreshState)) {
                         ItemsWidget(
@@ -290,7 +287,8 @@ fun LottieWidget(
                 composition = composition,
                 iterations = LottieConstants.IterateForever,
             )
-            LottieAnimation(modifier = Modifier.size(200.dp),
+            LottieAnimation(
+                modifier = Modifier.size(200.dp),
                 composition = composition,
                 progress = { progress })
             Text(
@@ -324,12 +322,13 @@ fun ItemsWidget(
                 mutableFloatStateOf(0f)
             }
             ItemWidget(
-                modifier = Modifier.animateItem(
-                    fadeInSpec = null, fadeOutSpec = null, placementSpec = spring(
-                        stiffness = Spring.StiffnessMediumLow,
-                        visibilityThreshold = IntOffset.VisibilityThreshold
+                modifier = Modifier
+                    .animateItem(
+                        fadeInSpec = null, fadeOutSpec = null, placementSpec = spring(
+                            stiffness = Spring.StiffnessMediumLow,
+                            visibilityThreshold = IntOffset.VisibilityThreshold
+                        )
                     )
-                )
                     .graphicsLayer(
                         alpha = animateFloatAsState(
                             targetValue = alpha,
@@ -412,7 +411,8 @@ fun ItemWidget(
                     )
                 }
             }
-            Switch(modifier = Modifier.align(Alignment.CenterVertically),
+            Switch(
+                modifier = Modifier.align(Alignment.CenterVertically),
                 checked = applied,
                 onCheckedChange = {
                     viewModel.dispatch(

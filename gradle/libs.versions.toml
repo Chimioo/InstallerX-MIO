@@ -8,18 +8,19 @@
 # https://mvnrepository.com/
 
 [versions]
-agp = "8.6.1"
-kotlin = "2.1.10"
-ksp="2.1.0-1.0.29"
-compose-compiler = "1.5.15"
-composeBom = "2025.06.00"
-compose = "1.8.2"
+agp = "8.12.0"
+kotlin = "2.2.0"
+ksp="2.2.0-2.0.2"
+#compose-compiler = "1.5.15"
+composeBom = "2025.07.00"
+compose = "1.8.3"
 libsuVersion = "6.0.0"
-room = "2.7.1"
+room = "2.7.2"
 ktx-serialization = "1.8.0"
 accompanist = "0.36.0"
 rikka-shizuku = "13.1.5"
 koin-bom = "4.0.1"
+timber = "5.0.1"
 
 [plugins]
 agp-lib = { id = "com.android.library", version.ref = "agp" }
@@ -52,6 +53,7 @@ room-compiler = { group = "androidx.room", name = "room-compiler", version.ref =
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 
 service = { module = "com.github.topjohnwu.libsu:service", version.ref = "libsuVersion" }
+timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 work-runtime-ktx = { group = "androidx.work", name = "work-runtime-ktx", version = "2.10.1" }
 
 # Kotlin Serialization
@@ -81,7 +83,7 @@ accompanist-navigationAnimation = { group = "com.google.accompanist", name = "ac
 accompanist-flowlayout = { group = "com.google.accompanist", name = "accompanist-flowlayout", version.ref = "accompanist" }
 accompanist-drawablepainter = { group = "com.google.accompanist", name = "accompanist-drawablepainter", version.ref = "accompanist" }
 accompanist-systemuicontroller = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanist" }
-accompanist-swiperefresh = { group = "com.google.accompanist", name = "accompanist-swiperefresh", version.ref = "accompanist" }
+#accompanist-swiperefresh = { group = "com.google.accompanist", name = "accompanist-swiperefresh", version.ref = "accompanist" }
 
 # Rikka Shizuku
 # https://github.com/RikkaApps/Shizuku-API

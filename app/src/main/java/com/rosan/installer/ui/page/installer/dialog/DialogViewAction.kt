@@ -4,10 +4,11 @@ import com.rosan.installer.data.installer.repo.InstallerRepo
 
 sealed class DialogViewAction {
     data class CollectRepo(val repo: InstallerRepo) : DialogViewAction()
-    object Close : DialogViewAction()
-    object Analyse : DialogViewAction()
-    object InstallChoice : DialogViewAction()
-    object InstallPrepare : DialogViewAction()
-    object Install : DialogViewAction()
-    object Background : DialogViewAction()
+    data object Close : DialogViewAction()
+    data object Analyse : DialogViewAction()
+    data object InstallChoice : DialogViewAction()
+    data object InstallPrepare : DialogViewAction()
+    data object Install : DialogViewAction()
+    data object Background : DialogViewAction()
+    data class LaunchApp(val packageName: String) : DialogViewAction()
 }

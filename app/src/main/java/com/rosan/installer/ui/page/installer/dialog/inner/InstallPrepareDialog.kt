@@ -20,6 +20,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.rosan.installer.R
 import com.rosan.installer.data.app.util.sortedBest
+import com.rosan.installer.data.app.util.InstalledAppInfo
+import com.rosan.installer.data.app.model.entity.AppEntity
 import com.rosan.installer.data.installer.repo.InstallerRepo
 import com.rosan.installer.ui.page.installer.dialog.*
 
@@ -103,15 +105,27 @@ fun installPrepareDialog(
     var showChips by remember {
         mutableStateOf(false)
     }
+    val primaryActionTextRes = remember(entities) {
+        val first = entities.firstOrNull()
+        if (first is AppEntity.BaseEntity) {
+            val installed = InstalledAppInfo.buildByPackageName(first.packageName)
+            when {
+                installed == null -> R.string.install
+                first.versionCode > installed.versionCode -> R.string.upgrade
+                first.versionCode < installed.versionCode -> R.string.downgrade
+                else -> R.string.reinstall
+            }
+        } else R.string.install
+    }
     return installInfoDialog(installer, viewModel) {
         showChips = !showChips
     }.copy(text = DialogInnerParams(
         DialogParamsType.InstallerPrepareInstall.id
     ) {
         LazyColumn(horizontalAlignment = Alignment.CenterHorizontally) {
-            item {
-                Text(stringResource(R.string.installer_prepare_install_dsp))
-            }
+//            item {
+//                Text(stringResource(R.string.installer_prepare_install_dsp))
+//            }
             if (showChips) item {
                 FlowRow(
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -170,7 +184,7 @@ fun installPrepareDialog(
     }, buttons = DialogButtons(
         DialogParamsType.InstallerPrepareInstall.id
     ) {
-        listOf(DialogButton(stringResource(R.string.install)) {
+        listOf(DialogButton(stringResource(primaryActionTextRes)) {
             viewModel.dispatch(DialogViewAction.Install)
         }, DialogButton(stringResource(R.string.previous), 2f) {
             viewModel.dispatch(DialogViewAction.InstallChoice)

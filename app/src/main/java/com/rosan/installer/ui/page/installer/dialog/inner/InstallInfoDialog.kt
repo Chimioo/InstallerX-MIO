@@ -38,7 +38,17 @@ fun installInfoDialog(
     val context: Context = getKoin().get()
     val entities = installer.entities.filter { it.selected }.map { it.app }.sortedBest()
     val entity = entities.first()
-    val installed = InstalledAppInfo.buildByPackageName(entity.packageName)
+    val snapshot = viewModel.getInstalledSnapshot(entity.packageName)
+    val installed = when (viewModel.state) {
+        is DialogViewState.InstallSuccess -> if (snapshot != null) InstalledAppInfo(
+            packageName = entity.packageName,
+            icon = null,
+            label = "",
+            versionCode = snapshot.first,
+            versionName = snapshot.second
+        ) else null
+        else -> InstalledAppInfo.buildByPackageName(entity.packageName)
+    }
     return DialogParams(icon = DialogInnerParams(
         DialogParamsType.InstallerInfo.id
     ) {

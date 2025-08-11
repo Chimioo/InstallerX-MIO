@@ -1,9 +1,6 @@
 package com.rosan.installer.ui.page.settings.config.all
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -11,8 +8,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.windowInsetsPadding
@@ -23,14 +23,10 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.twotone.Rule
-import androidx.compose.material.icons.twotone.Add
 import androidx.compose.material.icons.twotone.Delete
 import androidx.compose.material.icons.twotone.Edit
-import androidx.compose.material.icons.twotone.Rule
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -39,7 +35,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -48,7 +43,6 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -65,7 +59,6 @@ import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.rosan.installer.R
 import com.rosan.installer.data.settings.model.room.entity.ConfigEntity
-import com.rosan.installer.ui.page.settings.SettingsScreen
 import com.rosan.installer.ui.theme.none
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.compose.koinViewModel
@@ -128,29 +121,36 @@ fun AllPage(
                 }
             )
         },
-        floatingActionButton = {
-            AnimatedVisibility(
-                visible = showFloating,
-                enter = scaleIn(),
-                exit = scaleOut()
-            ) {
-                ExtendedFloatingActionButton(
-                    icon = {
-                        Icon(
-                            imageVector = Icons.TwoTone.Add,
-                            contentDescription = stringResource(id = R.string.add)
-                        )
-                    },
-                    text = {
-                        Text(text = stringResource(id = R.string.add))
-                    },
-                    onClick = {
-                        navController.navigate(SettingsScreen.Builder.EditConfig(null).route)
-                    }
-                )
-            }
+//        floatingActionButton = {
+//            AnimatedVisibility(
+//                visible = showFloating,
+//                enter = scaleIn(),
+//                exit = scaleOut()
+//            ) {
+//                ExtendedFloatingActionButton(
+//                    icon = {
+//                        Icon(
+//                            imageVector = Icons.TwoTone.Add,
+//                            contentDescription = stringResource(id = R.string.add)
+//                        )
+//                    },
+//                    text = {
+//                        Text(text = stringResource(id = R.string.add))
+//                    },
+//                    onClick = {
+//                        navController.navigate(SettingsScreen.Builder.EditConfig(null).route)
+//                    }
+//                )
+//            }
+//        },
+        snackbarHost = {
+            SnackbarHost(
+                hostState = snackBarHostState,
+                modifier = Modifier
+                    .windowInsetsPadding(WindowInsets.navigationBars.only(WindowInsetsSides.Bottom))
+                    .padding(bottom = 96.dp)
+            )
         },
-        snackbarHost = { SnackbarHost(hostState = snackBarHostState) },
     ) {
         Box(modifier = Modifier.padding(it)) {
             when {
@@ -297,21 +297,21 @@ fun DataItemWidget(
                     )
                 }
             }
-            Row(
-                modifier = Modifier
-                    .align(Alignment.CenterVertically)
-                    .padding(horizontal = 8.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                var enabled by remember {
-                    mutableStateOf(false)
-                }
-                Switch(
-                    checked = enabled,
-                    onCheckedChange = { enabled = !enabled }
-                )
-            }
+//            Row(
+//                modifier = Modifier
+//                    .align(Alignment.CenterVertically)
+//                    .padding(horizontal = 8.dp),
+//                verticalAlignment = Alignment.CenterVertically,
+//                horizontalArrangement = Arrangement.spacedBy(16.dp)
+//            ) {
+//                var enabled by remember {
+//                    mutableStateOf(false)
+//                }
+//                Switch(
+//                    checked = enabled,
+//                    onCheckedChange = { enabled = !enabled }
+//                )
+//            }
         }
     }
 }

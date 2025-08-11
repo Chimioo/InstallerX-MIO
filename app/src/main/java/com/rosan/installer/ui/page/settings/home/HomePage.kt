@@ -472,30 +472,27 @@ fun openUrl(context: Context, url: String) {
         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
     context.startActivity(intent)
 }
-
 @Composable
 fun AWordsWidget() {
     ElevatedCard {
-        Box(
+        Column(
             modifier = Modifier
-                .height(150.dp)
                 .fillMaxWidth()
-                .padding(horizontal = 24.dp, vertical = 24.dp)
+                .padding(horizontal = 24.dp, vertical = 24.dp),
+            verticalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
                 text = stringResource(id = R.string.a_word),
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.align(Alignment.TopStart)
+                fontWeight = FontWeight.Bold
             )
             Text(
                 text = stringResource(id = R.string.a_word_from),
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.align(Alignment.BottomEnd)
+                modifier = Modifier.align(Alignment.End)
             )
         }
     }
 }
-
 
 @Composable
 fun DiscussWidget() {

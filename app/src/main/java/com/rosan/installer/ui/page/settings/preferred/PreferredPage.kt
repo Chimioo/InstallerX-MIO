@@ -9,6 +9,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -50,7 +53,14 @@ fun PreferredPage(windowInsets: WindowInsets, viewModel: PreferredViewModel = ko
                 topBar = {
                         TopAppBar(title = { Text(text = stringResource(id = R.string.preferred)) })
                 },
-                snackbarHost = { SnackbarHost(hostState = snackBarHostState) },
+                snackbarHost = {
+                        SnackbarHost(
+                                hostState = snackBarHostState,
+                                modifier = Modifier
+                                        .windowInsetsPadding(WindowInsets.navigationBars.only(WindowInsetsSides.Bottom))
+                                        .padding(bottom = 96.dp)
+                        )
+                },
         ) {
                 LazyColumn(modifier = Modifier.fillMaxSize().padding(it)) {
                         item { LabelWidget(stringResource(R.string.global)) }

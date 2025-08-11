@@ -52,9 +52,8 @@
     <string name="delete">Delete</string>
     <string name="restore">Undo</string>
 
-    <string name="delete_success">Succesfully deleted</string>
-
-    <string name="loading">Loading...</string>
+    <string name="delete_success">Successfully deleted</string>
+    <string name="loading">Loading…</string>
     <string name="empty_configs">No profiles, add one below</string>
     <string name="filter">Filter</string>
     <string name="order">Sort</string>
@@ -97,6 +96,9 @@
     <string name="cancel">Cancel</string>
     <string name="retry">Retry</string>
     <string name="install">Install</string>
+    <string name="upgrade">Upgrade</string>
+    <string name="downgrade">Downgrade</string>
+    <string name="reinstall">Reinstall</string>
     <string name="next">Next</string>
     <string name="previous">Back</string>
     <string name="close">Close</string>
@@ -137,7 +139,7 @@
 
     <string name="installer_running">InstallerX running</string>
 
-    <string name="installer_version">Version: %s (%s)</string>
+    <string name="installer_version">Version: %1s (%2s)</string>
     <string name="installer_version2">%s (%s)</string>
     <string name="installer_package_name">Package: %s</string>
     <string name="installer_file_path">Path: %s</string>
