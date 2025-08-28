@@ -9,6 +9,7 @@
 
 [versions]
 agp = "8.12.0"
+capsule = "1.0.1"
 kotlin = "2.2.0"
 ksp="2.2.0-2.0.2"
 #compose-compiler = "1.5.15"
@@ -21,6 +22,8 @@ accompanist = "0.36.0"
 rikka-shizuku = "13.1.5"
 koin-bom = "4.0.1"
 timber = "5.0.1"
+aboutLibraries = "13.0.0-b01"
+
 
 [plugins]
 agp-lib = { id = "com.android.library", version.ref = "agp" }
@@ -32,6 +35,8 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 room = { id = "androidx.room", version.ref = "room" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 
+aboutLibraries = { id = "com.mikepenz.aboutlibraries.plugin", version.ref = "aboutLibraries" }
+
 [libraries]
 androidx-core = { group = "androidx.core", name = "core-ktx", version = "1.16.0" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
@@ -39,6 +44,7 @@ androidx-activity-compose = { group = "androidx.activity", name = "activity-comp
 androidx-lifecycle = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version = "2.9.1" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 
+capsule = { module = "com.github.Kyant0:Capsule", version.ref = "capsule" }
 compose-ui = { group = "androidx.compose.ui", name = "ui", version.ref = "compose" }
 compose-material = { group = "androidx.compose.material", name = "material", version.ref = "compose" }
 compose-material3 = { group = "androidx.compose.material3", name = "material3", version = "compose" }
@@ -46,13 +52,10 @@ compose-uiToolingPreview = { group = "androidx.compose.ui", name = "ui-tooling-p
 compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version = "2.9.0" }
 compose-materialIcons = { group = "androidx.compose.material", name = "material-icons-extended", version = "1.7.8" }
 
-core = { module = "com.github.topjohnwu.libsu:core", version.ref = "libsuVersion" }
-nio = { module = "com.github.topjohnwu.libsu:nio", version.ref = "libsuVersion" }
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 
-service = { module = "com.github.topjohnwu.libsu:service", version.ref = "libsuVersion" }
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 work-runtime-ktx = { group = "androidx.work", name = "work-runtime-ktx", version = "2.10.1" }
 
@@ -106,4 +109,12 @@ iamr0s-dhizuku-api = { group = "io.github.iamr0s", name = "Dhizuku-API", version
 # https://github.com/iamr0s/AndroidAppProcess
 iamr0s-androidAppProcess = { group = "io.github.iamr0s", name = "AndroidAppProcess", version = "1.3.2" }
 
-okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version = "4.9.3" }
+
+# Core module (required for accessing library data)
+aboutlibraries-core = { module = "com.mikepenz:aboutlibraries-core", version.ref = "aboutLibraries" }
+# Compose UI modules (choose one or both)
+aboutlibraries-compose-core = { module = "com.mikepenz:aboutlibraries-compose-core", version.ref = "aboutLibraries" } # Common compose core
+aboutlibraries-compose-m3 = { module = "com.mikepenz:aboutlibraries-compose-m3", version.ref = "aboutLibraries" }      # Material 3 UI
+# Deprecated View-based UI module
+aboutlibraries-view = { module = "com.mikepenz:aboutlibraries", version.ref = "aboutLibraries" }
+

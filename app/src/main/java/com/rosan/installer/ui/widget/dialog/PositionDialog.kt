@@ -20,6 +20,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -34,6 +35,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.kyant.capsule.G2RoundedCornerShape
 
 @Composable
 fun PositionDialog(
@@ -80,18 +82,18 @@ fun PositionDialog(
                 }) {
                 Surface(
                     modifier = modifier,
-                    shape = shape,
+                    shape = G2RoundedCornerShape(32.dp),
                     color = containerColor,
                     tonalElevation = tonalElevation
                 ) {
                     Box(
                         modifier = Modifier
                             .sizeIn(minWidth = MinWidth, maxHeight = MaxWidth)
-                            .padding(DialogPadding)
+                            .padding(DialogPadding),
                     ) {
                         // set the button always in bottom
                         var buttonHeightPx by remember {
-                            mutableStateOf(0)
+                            mutableIntStateOf(0)
                         }
                         val buttonHeight = (buttonHeightPx / LocalDensity.current.density).dp
                         val animatedButtonHeight by animateDpAsState(

@@ -21,7 +21,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import okhttp3.internal.closeQuietly
 import kotlin.time.Duration.Companion.seconds
 
 class InstallerService : Service() {
@@ -88,7 +87,7 @@ class InstallerService : Service() {
 
     override fun onDestroy() {
         scopes.keys.forEach {
-            (InstallerRepoImpl.get(it) ?: return@forEach).closeQuietly()
+            (InstallerRepoImpl.get(it) ?: return@forEach)
         }
         super.onDestroy()
     }
@@ -138,10 +137,6 @@ class InstallerService : Service() {
     private fun finish(installer: InstallerRepo) {
         val id = installer.id
 
-        if (scopes[id] != null) {
-            installer.closeQuietly()
-            return
-        }
 
         InstallerRepoImpl.remove(id)
 

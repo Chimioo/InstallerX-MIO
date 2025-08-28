@@ -76,10 +76,10 @@ fun EditPage(
     val snackBarHostState = remember { SnackbarHostState() }
 
     val lifecycleOwner = LocalLifecycleOwner.current
-// 一个简单的自动保存，不保证完全没有问题
+
     DisposableEffect(lifecycleOwner) {
         val observer = LifecycleEventObserver { _, event ->
-            if (event == Lifecycle.Event.ON_PAUSE && !viewModel.state.data.name.isEmpty()) {
+            if (event == Lifecycle.Event.ON_PAUSE && viewModel.state.data.name.isNotEmpty()) {
                 viewModel.dispatch(EditViewAction.SaveData)
             }
         }
@@ -110,13 +110,13 @@ fun EditPage(
     Scaffold(
         modifier =
             Modifier
-                    .fillMaxSize()
-                    .windowInsetsPadding(WindowInsets.safeDrawing)
-                    .nestedScroll(
-                            ShowFloatingActionButtonNestedScrollConnection(
-                                    showFloatingState
-                            )
-                    ),
+                .fillMaxSize()
+                .windowInsetsPadding(WindowInsets.safeDrawing)
+                .nestedScroll(
+                    ShowFloatingActionButtonNestedScrollConnection(
+                        showFloatingState
+                    )
+                ),
         contentWindowInsets = WindowInsets.none,
         topBar = {
             TopAppBar(
@@ -166,8 +166,8 @@ fun EditPage(
     ) {
         LazyColumn(
             modifier = Modifier
-                    .fillMaxSize()
-                    .padding(it),
+                .fillMaxSize()
+                .padding(it),
         ) {
             item { DataNameWidget(viewModel = viewModel) }
             item { DataDescriptionWidget(viewModel = viewModel) }
@@ -200,9 +200,9 @@ fun DataNameWidget(viewModel: EditViewModel) {
     OutlinedTextField(
         modifier =
             Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 8.dp, horizontal = 16.dp)
-                    .focusable(),
+                .fillMaxWidth()
+                .padding(vertical = 8.dp, horizontal = 16.dp)
+                .focusable(),
         leadingIcon = { Icon(imageVector = Icons.TwoTone.Edit, contentDescription = null) },
         label = { Text(text = stringResource(id = R.string.config_name)) },
         value = viewModel.state.data.name,
@@ -217,9 +217,9 @@ fun DataDescriptionWidget(viewModel: EditViewModel) {
     TextField(
         modifier =
             Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 8.dp, horizontal = 16.dp)
-                    .focusable(),
+                .fillMaxWidth()
+                .padding(vertical = 8.dp, horizontal = 16.dp)
+                .focusable(),
         leadingIcon = {
             Icon(
                 imageVector = Icons.AutoMirrored.TwoTone.More,
@@ -271,9 +271,9 @@ fun DataCustomizeAuthorizerWidget(viewModel: EditViewModel) {
     TextField(
         modifier =
             Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 8.dp, horizontal = 16.dp)
-                    .focusable(),
+                .fillMaxWidth()
+                .padding(vertical = 8.dp, horizontal = 16.dp)
+                .focusable(),
         leadingIcon = {
             Icon(imageVector = Icons.TwoTone.Terminal, contentDescription = null)
         },
@@ -342,9 +342,9 @@ fun DataInstallerWidget(viewModel: EditViewModel) {
     OutlinedTextField(
         modifier =
             Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 8.dp, horizontal = 16.dp)
-                    .focusable(),
+                .fillMaxWidth()
+                .padding(vertical = 8.dp, horizontal = 16.dp)
+                .focusable(),
         leadingIcon = {
             Icon(imageVector = Icons.TwoTone.PsychologyAlt, contentDescription = null)
         },

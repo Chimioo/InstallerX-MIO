@@ -57,6 +57,7 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
+import com.kyant.capsule.G2RoundedCornerShape
 import com.rosan.installer.R
 import com.rosan.installer.data.settings.model.room.entity.ConfigEntity
 import com.rosan.installer.ui.theme.none
@@ -64,6 +65,8 @@ import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 import kotlin.math.absoluteValue
+
+val cardRadius = 18.dp
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
@@ -239,6 +242,7 @@ fun DataItemWidget(
     entity: ConfigEntity
 ) {
     ElevatedCard(
+        shape = G2RoundedCornerShape(cardRadius),
         modifier = Modifier
             .fillMaxWidth()
     ) {

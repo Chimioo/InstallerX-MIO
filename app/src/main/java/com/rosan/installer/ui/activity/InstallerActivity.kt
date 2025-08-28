@@ -1,6 +1,5 @@
 package com.rosan.installer.ui.activity
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -41,17 +40,13 @@ class InstallerActivity : ComponentActivity(), KoinComponent {
         super.onSaveInstanceState(outState)
     }
 
-/*    override fun onNewIntent(intent: Intent?) {
-        this.intent = intent
-        super.onNewIntent(intent!!)
-        restoreInstaller()
-    }*/
+    /*    override fun onNewIntent(intent: Intent?) {
+            this.intent = intent
+            super.onNewIntent(intent!!)
+            restoreInstaller()
+        }*/
 
     private var job: Job? = null
-
-    override fun finish() {
-        super.finish()
-    }
 
     override fun onDestroy() {
         job?.cancel()

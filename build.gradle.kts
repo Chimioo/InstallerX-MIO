@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.kotlin.jvm) apply false
     alias(libs.plugins.ksp) apply false
     alias(libs.plugins.compose.compiler) apply false
+    id("com.mikepenz.aboutlibraries.plugin") version "13.0.0-b01" apply false
 }
 
 

@@ -1,7 +1,5 @@
-package com.rosan.installer.ui.page.settings.home
+package com.rosan.installer.ui.page.settings.thanks
 
-import android.content.Context
-import android.content.Intent
 import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.animation.core.FastOutLinearInEasing
@@ -15,32 +13,26 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
@@ -52,20 +44,20 @@ import androidx.compose.runtime.withFrameNanos
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.compositeOver
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
-import androidx.core.net.toUri
 import androidx.navigation.NavController
 import com.google.accompanist.drawablepainter.rememberDrawablePainter
 import com.kyant.capsule.G2RoundedCornerShape
+import com.mikepenz.aboutlibraries.ui.compose.android.rememberLibraries
+import com.mikepenz.aboutlibraries.ui.compose.m3.LibrariesContainer
 import com.rosan.installer.R
 import com.rosan.installer.build.Level
 import com.rosan.installer.build.RsConfig
@@ -78,40 +70,39 @@ val cardRadius = 18.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomePage(
+fun ThanksPage(
     navController: NavController,
     windowInsets: WindowInsets
 ) {
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val libraries by rememberLibraries(R.raw.aboutlibraries)
+
     Scaffold(
         modifier = Modifier
             .windowInsetsPadding(windowInsets)
-            .fillMaxSize(),
+            .fillMaxSize()
+            .nestedScroll(scrollBehavior.nestedScrollConnection),
         contentWindowInsets = WindowInsets.none,
         topBar = {
             TopAppBar(
-                title = {
-                    Text(text = stringResource(id = R.string.home))
-                },
+                title = { Text(text = stringResource(R.string.thanks_link)) },
+                scrollBehavior = scrollBehavior
             )
-        },
-    ) {
-        LazyColumn(
-            contentPadding = PaddingValues(16.dp),
+        }
+    ) { paddingValues ->
+        LibrariesContainer(
+            libraries = libraries,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(it),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-        ) {
-            item {
-                StatusWidget()
+                .padding(horizontal = 16.dp),
+            contentPadding = paddingValues,
+            header = {
+                item { StatusWidget() }
+            },
+            divider = {
+                HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
             }
-            item {
-                AWordsWidget()
-            }
-            item {
-                DiscussWidget()
-            }
-        }
+        )
     }
 }
 
@@ -222,13 +213,14 @@ fun StatusWidget() {
         ),
         label = "layer_alpha_3"
     )
-    ElevatedCard(shape = G2RoundedCornerShape(cardRadius)) {
+    ElevatedCard(
+        shape = G2RoundedCornerShape(cardRadius)
+    ) {
 
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .clip(RoundedCornerShape(12.dp))
-                .background(baseColor.copy(alpha = 0.15f))
+                .background(baseColor.copy(alpha = 0.15f)),
         ) {
             Canvas(
                 modifier = Modifier
@@ -428,7 +420,6 @@ fun StatusWidget() {
                     contentColor = onBaseColor
                 ),
                 elevation = CardDefaults.cardElevation(),
-                shape = RoundedCornerShape(12.dp)
             ) {
                 Column(
                     modifier = Modifier
@@ -464,168 +455,6 @@ fun StatusWidget() {
                             color = onBaseColor
                         )
                     }
-                }
-            }
-        }
-    }
-}
-
-fun openUrl(context: Context, url: String) {
-    val intent = Intent(Intent.ACTION_VIEW, url.toUri())
-        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-    context.startActivity(intent)
-}
-
-@Composable
-fun AWordsWidget() {
-    ElevatedCard(
-        shape = G2RoundedCornerShape(cardRadius)
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 24.dp, vertical = 24.dp),
-            verticalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text(
-                text = stringResource(id = R.string.a_word),
-                fontWeight = FontWeight.Bold
-            )
-            Text(
-                text = stringResource(id = R.string.a_word_from),
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.align(Alignment.End)
-            )
-        }
-    }
-}
-
-@Composable
-fun DiscussWidget() {
-    val context = LocalContext.current
-
-    val items = listOf(
-        HomeCardItem(
-            label = stringResource(id = R.string.view_source_on_github),
-            onClick = {
-                openUrl(
-                    context,
-                    "https://github.com/Chimioo/InstallerX-MIO"
-                )
-            }
-        ),
-
-        HomeCardItem(
-            label = stringResource(id = R.string.telegram_group),
-            onClick = {
-                openUrl(context, "https://t.me/rosan_installer")
-            }
-        ),
-    )
-    ItemsCardWidget(
-        title = {
-            Text(text = stringResource(id = R.string.discuss))
-        },
-        items = items
-    )
-}
-
-@Composable
-fun ItemsCardWidget(
-    colors: CardColors = CardDefaults.elevatedCardColors(),
-    onClick: (() -> Unit)? = null,
-    showItemIcon: Boolean = false,
-    icon: (@Composable () -> Unit)? = null,
-    title: (@Composable () -> Unit)? = null,
-    items: List<HomeCardItem>,
-    buttons: (@Composable () -> Unit)? = null
-) {
-    CardWidget(
-        colors = colors,
-        onClick = onClick,
-        icon = icon,
-        title = title,
-        content = {
-            @Composable
-            fun ItemWidget(item: HomeCardItem) {
-                Row(
-                    modifier = Modifier
-                        .clickable(enabled = item.onClick != null, onClick = item.onClick ?: {})
-                        .padding(horizontal = 24.dp, vertical = 12.dp),
-                    horizontalArrangement = Arrangement.spacedBy(24.dp)
-                ) {
-                    if (showItemIcon) {
-                        if (item.icon != null) {
-                            Icon(imageVector = item.icon, contentDescription = item.label)
-                        } else {
-                            Spacer(modifier = Modifier.size(32.dp))
-                        }
-                    }
-                    Column(
-                        modifier = Modifier
-                            .weight(1f)
-                    ) {
-                        Text(text = item.label, style = MaterialTheme.typography.bodyLarge)
-                        if (item.content != null) {
-                            Text(text = item.content, style = MaterialTheme.typography.bodyMedium)
-                        }
-                    }
-                }
-            }
-            Column {
-                items.forEach {
-                    ItemWidget(it)
-                }
-            }
-        },
-        buttons = buttons,
-        modifier = Modifier.fillMaxWidth()
-    )
-}
-
-@Composable
-fun CardWidget(
-    colors: CardColors = CardDefaults.elevatedCardColors(),
-    onClick: (() -> Unit)? = null,
-    icon: @Composable (() -> Unit)? = null,
-    title: @Composable (() -> Unit)? = null,
-    content: @Composable (() -> Unit)? = null,
-    buttons: @Composable (() -> Unit)? = null,
-    modifier: Modifier
-) {
-    ElevatedCard(
-        shape = G2RoundedCornerShape(cardRadius),
-        colors = colors
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable(enabled = onClick != null, onClick = onClick ?: {})
-                .padding(vertical = 24.dp),
-            verticalArrangement = Arrangement.spacedBy(4.dp)
-        ) {
-            if (icon != null) {
-                CompositionLocalProvider(LocalContentColor provides MaterialTheme.colorScheme.secondary) {
-                    Box(modifier = Modifier.align(Alignment.CenterHorizontally)) {
-                        icon()
-                    }
-                }
-            }
-            if (title != null) {
-                ProvideTextStyle(value = MaterialTheme.typography.titleLarge) {
-                    Box(modifier = Modifier.align(Alignment.CenterHorizontally)) {
-                        title()
-                    }
-                }
-            }
-            if (content != null) {
-                Box {
-                    content()
-                }
-            }
-            if (buttons != null) {
-                Box {
-                    buttons()
                 }
             }
         }

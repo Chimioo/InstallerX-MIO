@@ -27,7 +27,6 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import okhttp3.internal.closeQuietly
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import java.io.File
@@ -64,9 +63,6 @@ class ActionHandler(scope: CoroutineScope, installer: InstallerRepo) :
     }
 
     override suspend fun onFinish() {
-        cacheParcelFileDescriptors.forEach {
-            it.closeQuietly()
-        }
         cacheParcelFileDescriptors.clear()
         File(cacheDirectory).deleteRecursively()
         job?.cancel()

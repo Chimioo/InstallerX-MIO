@@ -27,6 +27,8 @@ class EditViewModel(private val repo: ConfigRepo, private val id: Long? = null) 
     private val _eventFlow = MutableSharedFlow<EditViewEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
 
+    var autoSaveJob: Job? = null
+
     fun dispatch(action: EditViewAction) {
         viewModelScope.launch {
             val errorMessage =
@@ -94,6 +96,7 @@ class EditViewModel(private val repo: ConfigRepo, private val id: Long? = null) 
         }
     }
 
+
     private fun changeDataName(name: String) {
         if (name.length > 20) return
         if (name.lines().size > 1) return
@@ -103,7 +106,10 @@ class EditViewModel(private val repo: ConfigRepo, private val id: Long? = null) 
     private fun changeDataDescription(description: String) {
         if (description.length > 4096) return
         if (description.lines().size > 8) return
-        state = state.copy(data = state.data.copy(description = description))
+        state = state.copy(
+            data = state.data.copy(description = description)
+        )
+
     }
 
     private fun changeDataAuthorizer(authorizer: ConfigEntity.Authorizer) {
@@ -190,8 +196,13 @@ class EditViewModel(private val repo: ConfigRepo, private val id: Long? = null) 
                     val entity = state.data.toConfigEntity()
                     if (id == null) repo.insert(entity)
                     else repo.update(entity.also { it.id = id })
-                    _eventFlow.emit(EditViewEvent.Saved)
+//                    _eventFlow.emit(EditViewEvent.Saved)
                 }
             }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        dispatch(EditViewAction.SaveData)
     }
 }

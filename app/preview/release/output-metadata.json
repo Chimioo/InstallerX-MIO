@@ -11,8 +11,8 @@
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 32,
-      "versionName": "1.8-mio",
+      "versionCode": 40,
+      "versionName": "2.1-mio",
       "outputFile": "app-preview-release.apk"
     }
   ],
@@ -33,5 +33,5 @@
       ]
     }
   ],
-  "minSdkVersionForDexing": 22
+  "minSdkVersionForDexing": 29
 }

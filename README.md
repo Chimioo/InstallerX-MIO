@@ -1,5 +1,20 @@
 # InstallerX
 
+> **你知道，有些鸟儿是注定不会被关在牢笼里的，它们的每一片羽毛都闪耀着自由的光辉。**  
+> <p align="right">——《肖申克的救赎》</p>  
+
+## 关于此Fork
+
+本项目是[InstallerX](https://github.com/iamr0s/InstallerX)的一个分支，并且合并了另一个分支[InstallerX-Revived](https://github.com/wxxsfxyzm/InstallerX-Revived)的两个commit([54bfdedffe8ab39417c6a5c687154ef24747bebc](https://github.com/wxxsfxyzm/InstallerX-Revived/commit/54bfdedffe8ab39417c6a5c687154ef24747bebc)和[8c9f0303d76118fbe93df17b06da9159ec9e4baa](https://github.com/wxxsfxyzm/InstallerX-Revived/commit/8c9f0303d76118fbe93df17b06da9159ec9e4baa)，在此非常感谢[iamr0s](https://github.com/iamr0s)和[wxxsfxyzm](https://github.com/wxxsfxyzm)的付出
+
+本人因学业压力可能不能很好的维护此项目，并且本人水平有限，追求稳定的可以尝试另一个InstallerX分支[InstallerX-Revived](https://github.com/wxxsfxyzm/InstallerX-Revived)，本分支会添加一些我认为有趣的内容。
+
+- 此分支严格遵循 GNU GPLv3，所有修改均开放源代码。
+
+## 特别鸣谢
+
+本项目获得[wxxsfxyzm](https://github.com/wxxsfxyzm)的大量帮助!
+
 ## 介绍
 
 一款应用安装程序，为什么不试试【InstallerX】？
@@ -10,9 +25,7 @@
 
 ## 支持版本
 
-Android 5.0 ~ 13
-
-
+Android 5.0 ~ 15
 
 ## 开源协议
 

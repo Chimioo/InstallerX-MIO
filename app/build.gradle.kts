@@ -6,6 +6,8 @@ plugins {
     alias(libs.plugins.room)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.compose.compiler)
+    id("com.mikepenz.aboutlibraries.plugin")
+    id("com.mikepenz.aboutlibraries.plugin.android")
     //id("kotlinx-serialization")
 }
 
@@ -22,8 +24,8 @@ android {
         namespace = "com.rosan.installer"
         minSdk = 29
         targetSdk = 36
-        versionCode = 39
-        versionName = "2.0-mio"
+        versionCode = 40
+        versionName = "2.1-mio"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -111,6 +113,15 @@ android {
     }
 }
 
+aboutLibraries {
+    library {
+        // Enable the duplication mode, allows to merge, or link dependencies which relate
+        duplicationMode = com.mikepenz.aboutlibraries.plugin.DuplicateMode.MERGE
+        // Configure the duplication rule, to match "duplicates" with
+        duplicationRule = com.mikepenz.aboutlibraries.plugin.DuplicateRule.SIMPLE
+    }
+}
+
 room {
     // Specify the schema directory
     schemaDirectory("$projectDir/schemas")
@@ -177,7 +188,11 @@ dependencies {
 
     implementation(libs.iamr0s.androidAppProcess)
 
-    implementation(libs.okhttp)
-
     implementation(libs.timber)
+
+    implementation(libs.capsule)
+
+    implementation(libs.aboutlibraries.core)
+    implementation(libs.aboutlibraries.compose.m3) // Material 3
+
 }

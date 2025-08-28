@@ -2,7 +2,7 @@ pluginManagement {
     repositories {
         mavenLocal()
 //        maven { setUrl("https://maven.aliyun.com/repository/public/") }
-//        maven { setUrl("https://jitpack.io") }
+        maven { setUrl("https://jitpack.io") }
         gradlePluginPortal()
         google()
         mavenCentral()

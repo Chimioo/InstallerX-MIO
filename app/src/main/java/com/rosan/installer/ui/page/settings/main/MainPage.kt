@@ -81,6 +81,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.kyant.capsule.G2RoundedCornerShape
 import com.rosan.installer.R
 import com.rosan.installer.ui.page.settings.SettingsScreen
 import com.rosan.installer.ui.page.settings.config.all.AllPage
@@ -88,6 +89,8 @@ import com.rosan.installer.ui.page.settings.home.HomePage
 import com.rosan.installer.ui.page.settings.preferred.PreferredPage
 import com.rosan.installer.ui.theme.exclude
 import kotlinx.coroutines.launch
+
+val cardRadius = 18.dp
 
 @Composable
 fun MainPage(navController: NavController) {
@@ -104,7 +107,7 @@ fun MainPage(navController: NavController) {
             NavigationData(
                 icon = Icons.TwoTone.SettingsSuggest,
                 label = stringResource(R.string.preferred)
-            ) { PreferredPage(it) }
+            ) { PreferredPage(navController,it) }
         )
 
     val pagerState = rememberPagerState(pageCount = { data.size })
@@ -377,7 +380,6 @@ fun FloatingNavigationBar(
                             containerColor =
                                 MaterialTheme.colorScheme.primaryContainer
                         ),
-                    shape = CircleShape
                 ) {
                     Icon(
                         imageVector = actionButtonIcon!!,
@@ -421,7 +423,7 @@ fun FloatingNavigationBar(
         ) {
             ElevatedCard(
                 modifier = Modifier.wrapContentSize(),
-                shape = RoundedCornerShape(60.dp),
+                shape = G2RoundedCornerShape(60.dp),
                 elevation =
                     CardDefaults.elevatedCardElevation(
                         defaultElevation = 8.dp,
@@ -567,17 +569,8 @@ fun FloatingNavigationBar(
                                         interactionSource = interactionSource,
                                         indication = null
                                     ) { onItemSelected(index) },
-                            shape = RoundedCornerShape(cornerRadius),
+                            shape = G2RoundedCornerShape(cornerRadius),
                             colors = CardDefaults.cardColors(containerColor = backgroundColor),
-                            border =
-                                if (isSelected) {
-                                    BorderStroke(
-                                        1.dp,
-                                        MaterialTheme.colorScheme.primary.copy(
-                                            alpha = 0.3f
-                                        )
-                                    )
-                                } else null
                         ) {
                             Box(
                                 modifier =

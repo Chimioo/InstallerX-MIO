@@ -31,7 +31,6 @@ import com.rosan.installer.data.settings.model.room.entity.ConfigEntity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import okhttp3.internal.closeQuietly
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 import org.koin.core.component.inject
@@ -129,7 +128,6 @@ abstract class IBinderInstallerRepoImpl : InstallerRepo, KoinComponent {
         } finally {
             session?.run {
                 abandon()
-                closeQuietly()
             }
         }
     }
