@@ -18,9 +18,9 @@ fun dialogInnerWidget(
 //            AnimatedContent(
 //                targetState = "${installer.id}_${params.id}"
 //            ) 
-{
+//{
                 params.content.invoke()
-            }
+//            }
         }
     }
 
