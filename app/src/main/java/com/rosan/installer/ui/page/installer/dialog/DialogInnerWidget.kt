@@ -14,14 +14,14 @@ fun dialogInnerWidget(
 ): @Composable (() -> Unit)? =
     if (params.content == null) null
     else {
-        {
+//        {
 //            AnimatedContent(
 //                targetState = "${installer.id}_${params.id}"
 //            ) 
 //{
                 params.content.invoke()
 //            }
-        }
+//        }
     }
 
 @Composable
