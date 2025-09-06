@@ -15,11 +15,11 @@ fun dialogInnerWidget(
     if (params.content == null) null
     else {
         {
-            AnimatedContent(
-                targetState = "${installer.id}_${params.id}"
-            ) {
-                params.content.invoke()
-            }
+//            AnimatedContent(
+//                targetState = "${installer.id}_${params.id}"
+//            ) {
+//                params.content.invoke()
+//            }
         }
     }
 
